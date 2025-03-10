@@ -12,6 +12,6 @@ class Solution {
             }
             twoSumCompliments.put(complimentNum, index);
         }
-        return nums;
+        return new int[]{};
     }
 }
