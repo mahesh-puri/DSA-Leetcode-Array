@@ -1,16 +1,30 @@
 class Solution {
     public int[] twoSum(int[] nums, int target) {
-        
-        Map<Integer, Integer> twoSumCompliments = new HashMap<>();
+    
+        // Brute force : iterating over each element and checking the addition with every other element,
+        // if addition is equals to the target then we found our two-sum indices.
+        //
+        // for(int i = 0; i<nums.length; i++){
+        //     for(int j=i+1; j<nums.length; j++){
+        //         if(nums[i] + nums[j] == target){
+        //             return new int[]{i, j};
+        //         }
+        //     }
+        // }
+        // return nums;
+        //
 
-        for(int index = 0 ; index < nums.length ; index++ ){
-            Integer complimentNum = target - nums[index];
+        // Optimal Solution : 
+
+        Map<Integer, Integer> complementNumsMap = new HashMap<>();
+
+        for(int index = 0; index < nums.length; index++){
+            Integer complementNum = target - nums[index];
             
-            if(twoSumCompliments.containsKey(nums[index])){
-                Integer complimentNumIndex = twoSumCompliments.get(nums[index]);
-                return new int[]{complimentNumIndex, index};
+            if(complementNumsMap.containsKey(nums[index])){
+                return new int[]{complementNumsMap.get(nums[index]), index};
             }
-            twoSumCompliments.put(complimentNum, index);
+            complementNumsMap.put(complementNum, index);
         }
         return nums;
     }
