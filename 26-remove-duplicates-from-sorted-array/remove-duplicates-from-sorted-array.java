@@ -20,7 +20,7 @@ class Solution {
             }
         }
         
-        return ++i;
+        return i + 1;
 
     }
 }
