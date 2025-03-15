@@ -1,30 +1,62 @@
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
         
-        if(nums == null || nums.length < 3) {
-            return new ArrayList<>();
-        }
+        // Initialize the result list to store the triplets
+        List<List<Integer>> result = new ArrayList<>();
 
+        // Sort the array to facilitate the two-pointer approach
         Arrays.sort(nums);
-        Set<List<Integer>> uniqueSet = new HashSet<>();
 
-        for(int index = 0; index < nums.length-2; index++){
+        // Iterate through the array, considering each number as a potential first element of a triplet
+        for (int i = 0; i < nums.length - 2; i++) {
+            // Skip duplicate elements to avoid duplicate triplets in the result
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
 
-            int left = index+1, right = nums.length-1;
-            while(left < right){
-                int sum = nums[index] + nums[left] + nums[right];
+            // If the current number is greater than zero, break the loop
+            // Since the array is sorted, no three positive numbers can sum to zero
+            if (nums[i] > 0) {
+                break;
+            }
 
-                if(sum == 0){
-                    uniqueSet.add(Arrays.asList(nums[index], nums[left], nums[right]));
+            // Initialize two pointers for the current subarray
+            int left = i + 1; // The element immediately after nums[i]
+            int right = nums.length - 1; // The last element in the array
+
+            // Use the two-pointer technique to find pairs that, together with nums[i], sum to zero
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+
+                // Check if the sum of the triplet is zero
+                if (sum == 0) {
+                    // Add the triplet to the result list
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+
+                    // Move the left pointer to the right, skipping over duplicate elements
+                    while (left < right && nums[left] == nums[left + 1]) {
+                        left++;
+                    }
+                    // Move the right pointer to the left, skipping over duplicate elements
+                    while (left < right && nums[right] == nums[right - 1]) {
+                        right--;
+                    }
+
+                    // Move both pointers inward to continue searching for other potential triplets
                     left++;
                     right--;
-                } else if (sum > 0){
-                    right--;
-                } else{
+                } else if (sum < 0) {
+                    // If the sum is less than zero, move the left pointer to the right
+                    // to increase the sum
                     left++;
+                } else {
+                    // If the sum is greater than zero, move the right pointer to the left
+                    // to decrease the sum
+                    right--;
                 }
             }
         }
-    return new ArrayList<>(uniqueSet);
+        // Return the list of triplets that sum to zero
+        return result;
     }
 }
